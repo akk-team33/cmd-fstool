@@ -1,0 +1,9 @@
+fstool-main
+fstool-main/pom.xml
+fstool-main/src
+fstool-main/src/main
+fstool-main/src/main/assembly
+fstool-main/src/main/java
+fstool-main/src/main/resources
+fstool-main/src/test
+fstool-main/src/test/java

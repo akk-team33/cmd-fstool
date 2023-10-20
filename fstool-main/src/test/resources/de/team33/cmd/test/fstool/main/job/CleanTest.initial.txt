@@ -1,0 +1,4 @@
+main : DIRECTORY (0, null) {
+    api : DIRECTORY (0, null) {};
+    job : DIRECTORY (0, null) {};
+};

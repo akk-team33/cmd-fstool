@@ -1,0 +1,32 @@
++------------------------------------------------------------------------------
+| ${project.groupId} - ${project.artifactId} - version ${project.version}
++------------------------------------------------------------------------------
+Your request is incomplete or incorrect:
+
+    MainTest unknown
+
+Problem:
+
+    Unknown COMMAND: unknown
+
+Expected request scheme:
+
+    MainTest COMMAND [arg [, arg [, ...]]]
+
+Available COMMANDs (case insensitive):
+
+    ABOUT : Get basic info about this application.
+    SETUP : GET or SET the user specific setup.
+    DCOPY : Copy the subdirectory structure from one directory to another.
+    MKDATE : Create a directory named according to the current local date.
+    MKTIME : Create a directory named according to the current local time.
+    CLEAN : Remove all empty directories within a given directory substructure.
+    MOVE : Relocate all regular files located in a given directory.
+    SIEVE : Relocate all duplicated regular files located in a given directory.
+    INFO : Get information about a given file or directory.
+
+Type ...
+
+    MainTest COMMAND
+
+... to get more information about the specified COMMAND.
