@@ -1,7 +1,7 @@
 package de.team33.test.patterns.io.alpha;
 
 import de.team33.patterns.io.alpha.FileInfo;
-import de.team33.patterns.io.alpha.TextIO;
+import de.team33.patterns.testing.titan.io.TextIO;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

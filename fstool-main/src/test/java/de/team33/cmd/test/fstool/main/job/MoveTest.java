@@ -3,7 +3,7 @@ package de.team33.cmd.test.fstool.main.job;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.Move;
 import de.team33.patterns.io.alpha.FileInfo;
-import de.team33.patterns.io.alpha.TextIO;
+import de.team33.patterns.testing.titan.io.TextIO;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

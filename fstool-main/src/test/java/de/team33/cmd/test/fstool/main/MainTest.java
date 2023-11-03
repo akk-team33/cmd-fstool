@@ -2,8 +2,8 @@ package de.team33.cmd.test.fstool.main;
 
 import de.team33.cmd.fstool.main.Main;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.alpha.TextIO;
 import de.team33.patterns.testing.titan.io.Redirected;
+import de.team33.patterns.testing.titan.io.TextIO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
