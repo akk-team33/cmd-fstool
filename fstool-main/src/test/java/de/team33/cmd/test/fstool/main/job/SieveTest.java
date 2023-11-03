@@ -5,7 +5,7 @@ import de.team33.cmd.fstool.main.job.Move;
 import de.team33.cmd.fstool.main.job.Sieve;
 import de.team33.patterns.io.alpha.FileInfo;
 import de.team33.patterns.io.alpha.TextIO;
-import de.team33.patterns.testing.io.ZipIO;
+import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

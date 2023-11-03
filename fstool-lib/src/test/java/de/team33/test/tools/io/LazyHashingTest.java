@@ -1,6 +1,6 @@
 package de.team33.test.tools.io;
 
-import de.team33.patterns.testing.io.FileIO;
+import de.team33.patterns.testing.titan.io.FileIO;
 import de.team33.tools.io.StrictHashing;
 import de.team33.tools.io.LazyHashing;
 import org.junit.jupiter.api.BeforeEach;

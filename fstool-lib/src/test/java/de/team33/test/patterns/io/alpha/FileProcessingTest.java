@@ -3,7 +3,7 @@ package de.team33.test.patterns.io.alpha;
 import de.team33.patterns.io.alpha.FileEntry;
 import de.team33.patterns.io.alpha.FileProcessing;
 import de.team33.patterns.io.alpha.TextIO;
-import de.team33.patterns.testing.io.ZipIO;
+import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
