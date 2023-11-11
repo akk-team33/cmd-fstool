@@ -2,7 +2,7 @@ package de.team33.cmd.fstool.main;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.alpha.TextIO;
+import de.team33.patterns.io.deimos.TextIO;
 
 import java.util.List;
 

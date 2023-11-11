@@ -2,8 +2,15 @@ package de.team33.cmd.fstool.main;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.cmd.fstool.main.job.*;
-import de.team33.patterns.io.alpha.TextIO;
+import de.team33.cmd.fstool.main.job.Clean;
+import de.team33.cmd.fstool.main.job.DirCopy;
+import de.team33.cmd.fstool.main.job.Info;
+import de.team33.cmd.fstool.main.job.MKDate;
+import de.team33.cmd.fstool.main.job.MKTime;
+import de.team33.cmd.fstool.main.job.Move;
+import de.team33.cmd.fstool.main.job.Setup;
+import de.team33.cmd.fstool.main.job.Sieve;
+import de.team33.patterns.io.deimos.TextIO;
 
 import java.util.List;
 import java.util.function.Function;

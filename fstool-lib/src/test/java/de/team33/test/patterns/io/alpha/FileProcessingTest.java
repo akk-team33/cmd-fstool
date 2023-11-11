@@ -2,7 +2,7 @@ package de.team33.test.patterns.io.alpha;
 
 import de.team33.patterns.io.alpha.FileEntry;
 import de.team33.patterns.io.alpha.FileProcessing;
-import de.team33.patterns.testing.titan.io.TextIO;
+import de.team33.patterns.io.deimos.TextIO;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
