@@ -4,15 +4,18 @@ import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.move.Resolver;
 import de.team33.cmd.fstool.main.move.ResolverException;
-import de.team33.patterns.io.alpha.FileEntry;
-import de.team33.patterns.io.alpha.FileProcessing;
+import de.team33.patterns.io.phobos.FileEntry;
+import de.team33.patterns.io.phobos.FileIndex;
+
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Move implements Runnable {
 
@@ -55,7 +58,7 @@ public class Move implements Runnable {
             "               directories from processing.";
 
     private final Context context;
-    private final int depth;
+    private final Supplier<Stream<FileEntry>> toStream;
     private final Path mainPath;
     private final Resolver resolver;
     private final Set<Path> exclusions;
@@ -63,7 +66,7 @@ public class Move implements Runnable {
     private Move(final Context context, final String shellCmd, final boolean recursive,
                  final List<String> mainArgs, final List<String> optArgs) {
         this.context = context;
-        this.depth = recursive ? Integer.MAX_VALUE : 1;
+        this.toStream = recursive ? this::deepStream : this::flatStream;
         this.mainPath = Paths.get(mainArgs.get(0)).toAbsolutePath().normalize();
         this.exclusions = optArgs.stream()
                                  .map(mainPath::resolve)
@@ -82,17 +85,6 @@ public class Move implements Runnable {
         }
     }
 
-    private boolean readEntries(final FileEntry entry) {
-        return !exclusions.contains(entry.path());
-    }
-
-    private void onReadDirFailed(final Path path, final Exception caught) {
-        context.printf("--> %s%n    %s%n    %s%n",
-                       "could not read directory content of <" + path + ">",
-                       caught.getClass().getCanonicalName(),
-                       caught.getMessage());
-    }
-
     public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
         final int size = args.size();
         if (2 < size && "-r".equalsIgnoreCase(args.get(2))) {
@@ -103,16 +95,26 @@ public class Move implements Runnable {
         throw new BadRequestException(String.format(HELP_FORMAT, "", shellCmd));
     }
 
+    private Stream<FileEntry> flatStream() {
+        return FileEntry.of(mainPath, LinkOption.NOFOLLOW_LINKS)
+                        .content()
+                        .stream()
+                        .map(path -> FileEntry.of(path, LinkOption.NOFOLLOW_LINKS));
+    }
+
+    private Stream<FileEntry> deepStream() {
+        return FileIndex.of(mainPath, LinkOption.NOFOLLOW_LINKS)
+                        .skipPath(exclusions::contains)
+                        .stream();
+    }
+
     @Override
     public void run() {
         context.printf("%s ...%n", mainPath);
-        FileProcessing.with(LinkOption.NOFOLLOW_LINKS)
-                      .setReadDirectoryEntry(this::readEntries)
-                      .onReadDirFailed(this::onReadDirFailed)
-                      .stream(mainPath, depth)
-                      .filter(FileEntry::isRegularFile)
-                      .map(FileEntry::path)
-                      .forEach(this::move);
+        toStream.get()
+                .filter(FileEntry::isRegularFile)
+                .map(FileEntry::path)
+                .forEach(this::move);
         Clean.runnable(context, Move.class.getSimpleName(), List.of(mainPath.toString()))
              .run();
     }
@@ -127,6 +129,7 @@ public class Move implements Runnable {
             return;
         }
 
+        //noinspection DuplicatedCode
         try {
             Files.createDirectories(newPath.getParent());
             Files.move(path, newPath);

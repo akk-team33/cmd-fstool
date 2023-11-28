@@ -2,8 +2,7 @@ package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.alpha.FileEntry;
-import de.team33.patterns.io.alpha.FileProcessing;
+import de.team33.patterns.io.phobos.FileEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public final class Clean implements Runnable {
 
@@ -37,21 +37,12 @@ public final class Clean implements Runnable {
         final Path path = Path.of(args.get(0)).toAbsolutePath().normalize();
         this.context = context;
         this.mode = mode;
-        this.mainEntry = FileProcessing.withoutOptions()
-                                       .onReadDirFailed(this::onReadDirFailed)
-                                       .entry(path);
+        this.mainEntry = FileEntry.of(path);
 
         if (!mainEntry.isDirectory()) {
             final String problem = String.format("Problem:%n%n    not a directory:%n    %s%n%n", path);
             throw new BadRequestException(String.format(HELP_FORMAT, problem, shellCmd));
         }
-    }
-
-    private void onReadDirFailed(final Path path, final Exception caught) {
-        context.printf("--> %s%n    %s%n    %s%n",
-                       "could not read directory content of <" + path + ">",
-                       caught.getClass().getCanonicalName(),
-                       caught.getMessage());
     }
 
     public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
@@ -79,7 +70,10 @@ public final class Clean implements Runnable {
     }
 
     private boolean clean(final FileEntry entry) {
-        final List<FileEntry> content = new ArrayList<>(entry.content());
+        final List<FileEntry> content = entry.content()
+                                             .stream()
+                                             .map(FileEntry::of)
+                                             .collect(Collectors.toCollection(ArrayList::new));
         final List<FileEntry> deleted = clean(content);
         content.removeAll(deleted);
         if (content.isEmpty()) {

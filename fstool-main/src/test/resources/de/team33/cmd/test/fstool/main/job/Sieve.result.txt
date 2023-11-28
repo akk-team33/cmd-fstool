@@ -1,41 +1,39 @@
 main : DIRECTORY {
     (sieved-moved) : DIRECTORY {
-        alt : DIRECTORY {
-            Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
-            Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
-            Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
-            api : DIRECTORY {
-                BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
-                Context.java : REGULAR (121, 2023-09-21T09:06:15Z);
-            };
-            job : DIRECTORY {
-                Clean.java : REGULAR (5.034, 2023-09-21T11:12:48Z);
-                DirCopy.java : REGULAR (4.484, 2023-09-21T15:23:27Z);
-                Hash.java : REGULAR (6.176, 2023-09-25T08:33:22Z);
-                Info.java : REGULAR (1.428, 2023-09-24T15:02:29Z);
-                MKDate.java : REGULAR (2.133, 2023-09-24T10:51:31Z);
-                MKTime.java : REGULAR (2.125, 2023-09-24T10:51:31Z);
-            };
+        Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
+        Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
+        Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
+        api : DIRECTORY {
+            BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
+            Context.java : REGULAR (121, 2023-09-21T09:06:15Z);
+        };
+        job : DIRECTORY {
+            Clean.java : REGULAR (5.034, 2023-09-21T11:12:48Z);
+            DirCopy.java : REGULAR (4.484, 2023-09-21T15:23:27Z);
+            Hash.java : REGULAR (6.176, 2023-09-25T08:33:22Z);
+            Info.java : REGULAR (1.428, 2023-09-24T15:02:29Z);
+            MKDate.java : REGULAR (2.133, 2023-09-24T10:51:31Z);
+            MKTime.java : REGULAR (2.125, 2023-09-24T10:51:31Z);
         };
     };
-    (sieved-unique).txt : REGULAR (622, 1970-01-01T00:00:00Z);
-    Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
-    Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
-    Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
+    (sieved-unique).txt : REGULAR (666, 1970-01-01T00:00:00Z);
     alt : DIRECTORY {
-        api : DIRECTORY {};
-        job : DIRECTORY {};
+        Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
+        Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
+        Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
+        api : DIRECTORY {
+            BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
+            Context.java : REGULAR (121, 2023-09-21T09:06:15Z);
+        };
+        job : DIRECTORY {
+            Clean.java : REGULAR (5.034, 2023-09-21T11:12:48Z);
+            DirCopy.java : REGULAR (4.484, 2023-09-21T15:23:27Z);
+            Hash.java : REGULAR (6.176, 2023-09-25T08:33:22Z);
+            Info.java : REGULAR (1.428, 2023-09-24T15:02:29Z);
+            MKDate.java : REGULAR (2.133, 2023-09-24T10:51:31Z);
+            MKTime.java : REGULAR (2.125, 2023-09-24T10:51:31Z);
+        };
     };
-    api : DIRECTORY {
-        BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
-        Context.java : REGULAR (121, 2023-09-21T09:06:15Z);
-    };
-    job : DIRECTORY {
-        Clean.java : REGULAR (5.034, 2023-09-21T11:12:48Z);
-        DirCopy.java : REGULAR (4.484, 2023-09-21T15:23:27Z);
-        Hash.java : REGULAR (6.176, 2023-09-25T08:33:22Z);
-        Info.java : REGULAR (1.428, 2023-09-24T15:02:29Z);
-        MKDate.java : REGULAR (2.133, 2023-09-24T10:51:31Z);
-        MKTime.java : REGULAR (2.125, 2023-09-24T10:51:31Z);
-    };
+    api : DIRECTORY {};
+    job : DIRECTORY {};
 };

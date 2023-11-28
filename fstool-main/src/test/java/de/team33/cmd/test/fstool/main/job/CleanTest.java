@@ -3,9 +3,9 @@ package de.team33.cmd.test.fstool.main.job;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.Clean;
 import de.team33.patterns.exceptional.dione.Conversion;
-import de.team33.patterns.io.alpha.FileEntry;
-import de.team33.patterns.io.alpha.FileProcessing;
 import de.team33.patterns.io.deimos.TextIO;
+import de.team33.patterns.io.phobos.FileEntry;
+import de.team33.patterns.io.phobos.FileIndex;
 import de.team33.patterns.testing.titan.io.FileInfo;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
@@ -32,11 +32,11 @@ class CleanTest implements Context {
         ZipIO.unzip(CleanTest.class, "SomeFiles.zip", testPath);
         final Path mainPath = testPath.resolve("main");
         // removeAllNonDirectories ...
-        FileProcessing.with(LinkOption.NOFOLLOW_LINKS)
-                      .stream(mainPath)
-                      .filter(not(FileEntry::isDirectory))
-                      .map(FileEntry::path)
-                      .forEach(Conversion.consumer(Files::delete));
+        FileIndex.of(mainPath, LinkOption.NOFOLLOW_LINKS)
+                 .stream()
+                 .filter(not(FileEntry::isDirectory))
+                 .map(FileEntry::path)
+                 .forEach(Conversion.consumer(Files::delete));
         assertEquals(TextIO.read(CleanTest.class, "CleanTest.initial.txt"),
                      FileInfo.of(mainPath).toString(),
                      () -> "initial state of <" + mainPath + "> is not as expected!");

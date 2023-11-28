@@ -2,8 +2,8 @@ package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.alpha.FileEntry;
-import de.team33.patterns.io.alpha.FileProcessing;
+import de.team33.patterns.io.phobos.FileEntry;
+import de.team33.patterns.io.phobos.FileIndex;
 import de.team33.tools.io.FileHashing;
 import de.team33.tools.io.LazyHashing;
 import de.team33.tools.io.StrictHashing;
@@ -95,25 +95,17 @@ public class Sieve implements Runnable {
         }
     }
 
-    private void onReadDirFailed(final Path path, final Exception caught) {
-        context.printf("--> %s%n    %s%n    %s%n",
-                       "could not read directory content of <" + path + ">",
-                       caught.getClass().getCanonicalName(),
-                       caught.getMessage());
-    }
-
     @Override
     public void run() {
         context.printf("%s ...%n", mainPath);
-        FileProcessing.with(LinkOption.NOFOLLOW_LINKS)
-                      .setReadDirectory(not(doubletPath::equals))
-                      .onReadDirFailed(this::onReadDirFailed)
-                      .stream(mainPath)
-                      .filter(FileEntry::isRegularFile)
-                      .map(FileEntry::path)
-                      .filter(not(indexPath::equals))
-                      .filter(not(this::isUnique))
-                      .forEach(this::move);
+        FileIndex.of(mainPath, LinkOption.NOFOLLOW_LINKS)
+                 .skipPath(doubletPath::equals)
+                 .stream()
+                 .filter(FileEntry::isRegularFile)
+                 .map(FileEntry::path)
+                 .filter(not(indexPath::equals))
+                 .filter(not(this::isUnique))
+                 .forEach(this::move);
         writeIndex();
     }
 
@@ -132,6 +124,8 @@ public class Sieve implements Runnable {
         context.printf("%s ...%n", path);
         final Path newPath = doubletPath.resolve(mainPath.relativize(path));
         context.printf("--> %s ... ", newPath);
+
+        //noinspection DuplicatedCode
         try {
             Files.createDirectories(newPath.getParent());
             Files.move(path, newPath);
