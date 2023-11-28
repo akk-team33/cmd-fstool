@@ -1,22 +1,22 @@
-main : DIRECTORY (26.317, 2023-09-25T08:33:22Z) {
-    (moved) : DIRECTORY (4.628, 2023-09-24T16:00:16Z) {
-        2023 : DIRECTORY (4.628, 2023-09-24T16:00:16Z) {
-            09 : DIRECTORY (4.628, 2023-09-24T16:00:16Z) {
-                21 : DIRECTORY (455, 2023-09-21T09:06:15Z) {
+main : DIRECTORY {
+    (moved) : DIRECTORY {
+        2023 : DIRECTORY {
+            09 : DIRECTORY {
+                21 : DIRECTORY {
                     Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
                 };
-                24 : DIRECTORY (4.173, 2023-09-24T16:00:16Z) {
+                24 : DIRECTORY {
                     Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
                     Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
                 };
             };
         };
     };
-    api : DIRECTORY (309, 2023-09-21T09:06:15Z) {
+    api : DIRECTORY {
         BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
         Context.java : REGULAR (121, 2023-09-21T09:06:15Z);
     };
-    job : DIRECTORY (21.380, 2023-09-25T08:33:22Z) {
+    job : DIRECTORY {
         Clean.java : REGULAR (5.034, 2023-09-21T11:12:48Z);
         DirCopy.java : REGULAR (4.484, 2023-09-21T15:23:27Z);
         Hash.java : REGULAR (6.176, 2023-09-25T08:33:22Z);

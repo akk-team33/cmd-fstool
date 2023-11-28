@@ -2,8 +2,9 @@ package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.alpha.FileInfo;
+import de.team33.patterns.io.phobos.FileIndex;
 
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,6 +39,6 @@ public class Info implements Runnable {
 
     @Override
     public void run() {
-        context.printf("%s%n%n", FileInfo.of(tgtPath).toString());
+        context.printf("%s%n%n", FileIndex.of(tgtPath, LinkOption.NOFOLLOW_LINKS).toString());
     }
 }

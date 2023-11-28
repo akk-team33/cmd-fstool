@@ -4,9 +4,9 @@ import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.Clean;
 import de.team33.patterns.exceptional.dione.Conversion;
 import de.team33.patterns.io.alpha.FileEntry;
-import de.team33.patterns.io.alpha.FileInfo;
 import de.team33.patterns.io.alpha.FileProcessing;
 import de.team33.patterns.io.deimos.TextIO;
+import de.team33.patterns.testing.titan.io.FileInfo;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
 

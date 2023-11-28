@@ -27,6 +27,10 @@
             <artifactId>io-deimos</artifactId>
         </dependency>
         <dependency>
+            <groupId>de.team33.patterns</groupId>
+            <artifactId>io-phobos</artifactId>
+        </dependency>
+        <dependency>
             <groupId>de.team33.cmd.fstool</groupId>
             <artifactId>fstool-lib</artifactId>
         </dependency>

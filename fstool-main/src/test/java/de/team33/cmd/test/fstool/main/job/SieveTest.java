@@ -3,8 +3,8 @@ package de.team33.cmd.test.fstool.main.job;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.Move;
 import de.team33.cmd.fstool.main.job.Sieve;
-import de.team33.patterns.io.alpha.FileInfo;
 import de.team33.patterns.io.deimos.TextIO;
+import de.team33.patterns.testing.titan.io.FileInfo;
 import de.team33.patterns.testing.titan.io.ZipIO;
 import org.junit.jupiter.api.Test;
 
