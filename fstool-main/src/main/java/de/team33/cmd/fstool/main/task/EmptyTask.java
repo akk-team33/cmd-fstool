@@ -26,6 +26,6 @@ public class EmptyTask implements Runnable {
 
     @Override
     public final void run() {
-        context.printf("%s%nYour Request%n%n", HEAD.get(), TAIL.get());
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

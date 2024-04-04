@@ -1,7 +1,5 @@
-# cmd-mm-template
+# cmd-fstool
 
-    A template command-line multi-module project
-    
     Version 1
 
 ## Requires

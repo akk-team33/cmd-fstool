@@ -14,8 +14,7 @@
     <packaging>jar</packaging>
 
     <name>Filesystem Tool Library</name>
-    <description>[Project template]
-        A command line tool to perform various tasks on the file system - library module.</description>
+    <description>A command line tool to perform various tasks on the file system - library module.</description>
 
     <dependencies>
         <dependency>

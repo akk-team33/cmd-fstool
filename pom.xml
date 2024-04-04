@@ -8,9 +8,8 @@
     <packaging>pom</packaging>
 
     <name>Filesystem Tool Root</name>
-    <description>[Project template]
-        A command line tool to perform various tasks on the file system - root module.</description>
-    <url>http://team33.de/dev/cmd-mm-template</url>
+    <description>A command line tool to perform various tasks on the file system - root module.</description>
+    <url>http://team33.de/dev/cmd-fstool</url>
 
     <licenses>
         <license>
@@ -27,9 +26,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/akk-team33/cmd-mm-template.git</connection>
-        <developerConnection>scm:git:ssh://github.com:akk-team33/cmd-mm-template.git</developerConnection>
-        <url>https://github.com/akk-team33/cmd-mm-template</url>
+        <connection>scm:git:git://github.com/akk-team33/cmd-fstool.git</connection>
+        <developerConnection>scm:git:ssh://github.com:akk-team33/cmd-fstool.git</developerConnection>
+        <url>https://github.com/akk-team33/cmd-fstool</url>
     </scm>
 
     <properties>
@@ -43,6 +42,7 @@
     <modules>
         <module>fstool-lib</module>
         <module>fstool-main</module>
+        <module>fstool-fat</module>
     </modules>
 
     <dependencyManagement>
