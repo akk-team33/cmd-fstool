@@ -1,4 +1,4 @@
-package de.team33.cmd.test.fstool.main;
+package de.team33.cmd.fstool.main.publics;
 
 import de.team33.cmd.fstool.main.Main;
 import de.team33.cmd.fstool.main.common.Context;

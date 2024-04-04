@@ -1,3 +1,10 @@
++------------------------------------------------------------------------------
+| ${project.groupId} - ${project.artifactId} - version ${project.version}
++------------------------------------------------------------------------------
+Your request is incomplete:
+
+    *called without arguments*
+
 It is recommended to create a shell script to run the application.
 It may look as follows ...
 

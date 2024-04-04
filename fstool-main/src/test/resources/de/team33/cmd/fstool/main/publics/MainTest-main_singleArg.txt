@@ -1,7 +1,7 @@
 +------------------------------------------------------------------------------
 | ${project.groupId} - ${project.artifactId} - version ${project.version}
 +------------------------------------------------------------------------------
-Your request is incomplete or incorrect:
+Your request:
 
     MainTest
 

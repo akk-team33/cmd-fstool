@@ -1,4 +1,4 @@
-package de.team33.cmd.test.fstool.main.common;
+package de.team33.cmd.fstool.main.publics.common;
 
 import de.team33.cmd.fstool.main.common.Config;
 import de.team33.patterns.testing.titan.io.FileIO;

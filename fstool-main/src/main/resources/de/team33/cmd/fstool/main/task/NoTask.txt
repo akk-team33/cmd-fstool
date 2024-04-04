@@ -1,7 +1,4 @@
-+------------------------------------------------------------------------------
-| ${project.groupId} - ${project.artifactId} - version ${project.version}
-+------------------------------------------------------------------------------
-Your request is incomplete or incorrect:
+Your request is incomplete:
 
     *called without arguments*
 
