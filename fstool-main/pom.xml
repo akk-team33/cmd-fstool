@@ -14,8 +14,7 @@
     <packaging>jar</packaging>
 
     <name>Filesystem Tool</name>
-    <description>[Project template]
-        A command line tool to perform various tasks on the file system - main module.</description>
+    <description>A command line tool to perform various tasks on the file system - main module.</description>
 
     <dependencies>
         <dependency>
@@ -76,31 +75,5 @@
                 </includes>
             </testResource>
         </testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <mainClass>de.team33.cmd.fstool.main.Main</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptors>
-                                <descriptor>src/main/assembly/cmd.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>
