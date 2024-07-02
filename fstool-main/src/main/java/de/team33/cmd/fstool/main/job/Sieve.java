@@ -47,7 +47,7 @@ public class Sieve implements Runnable {
     private Sieve(final Context context, final String shellCmd, final String path) {
         this.context = context;
         this.mainPath = Paths.get(path).toAbsolutePath().normalize();
-        this.doubletPath = mainPath.resolve("(sieved-moved)");
+        this.doubletPath = Paths.get(mainPath.toString() + ".(sieved-moved)");
         this.indexPath = mainPath.resolve("(sieved-unique).txt");
         this.hashing = LazyHashing.of(StrictHashing.SHA_1);
 

@@ -27,8 +27,10 @@ class SieveTest implements Context {
     @Test
     void run() throws IOException {
         // given ...
-        final Path testPath1 = TEST_PATH.resolve(UUID.randomUUID().toString());
-        final Path testPath2 = TEST_PATH.resolve(UUID.randomUUID().toString());
+        final String uuid1 = UUID.randomUUID().toString();
+        final Path testPath1 = TEST_PATH.resolve(uuid1);
+        final String uuid2 = UUID.randomUUID().toString();
+        final Path testPath2 = TEST_PATH.resolve(uuid2);
         final Path mainPath = testPath1.resolve("main");
         final Path indexPath = mainPath.resolve("(sieved-unique).txt");
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath1);
@@ -51,7 +53,7 @@ class SieveTest implements Context {
         assertTrue(Files.exists(indexPath));
         Files.setLastModifiedTime(indexPath, FileTime.from(Instant.ofEpochMilli(0L))); // must be normalized to match!
         assertEquals(TextIO.read(getClass(), "Sieve.result.txt"),
-                     FileInfo.of(mainPath).toString(),
+                     FileInfo.of(mainPath.getParent()).toString().replace(uuid1, "[UUID1]"),
                      () -> "final state of <" + mainPath + "> is not as expected (Sieve.result.txt)!");
 
         // again: when...
@@ -62,7 +64,7 @@ class SieveTest implements Context {
         assertTrue(Files.exists(indexPath));
         Files.setLastModifiedTime(indexPath, FileTime.from(Instant.ofEpochMilli(0L))); // must be normalized to match!
         assertEquals(TextIO.read(getClass(), "Sieve.result.txt"),
-                     FileInfo.of(mainPath).toString(),
+                     FileInfo.of(mainPath.getParent()).toString().replace(uuid1, "[UUID1]"),
                      () -> "final state of <" + mainPath + "> is not as expected (Sieve.result.txt)!");
     }
 
