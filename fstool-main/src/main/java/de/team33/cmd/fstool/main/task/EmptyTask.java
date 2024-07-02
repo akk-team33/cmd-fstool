@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EmptyTask implements Runnable {
 
-    private static final Lazy<String> HEAD = Lazy.init(() -> TextIO.read(NoTask.class, "../head.txt"));
+    private static final Lazy<String> HEAD = Lazy.init(() -> TextIO.read(EmptyTask.class, "../head.txt"));
 
     private final Context context;
     private final String command;
@@ -26,6 +26,6 @@ public class EmptyTask implements Runnable {
 
     @Override
     public final void run() {
-        throw new UnsupportedOperationException("not yet implemented");
+        context.printf(HEAD.get());
     }
 }

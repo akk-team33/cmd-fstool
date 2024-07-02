@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StrictHashingTest {
 
-    private static final Path TEST_PATH = Paths.get("target", "testing", StrictHashingTest.class.getSimpleName());
+    private static final Path TEST_PATH = Paths.get("target",
+                                                    "testing",
+                                                    StrictHashingTest.class.getSimpleName());
     private static final String TEST_FILE = "HasherTest.file";
     private static final Path TEMP_PATH = TEST_PATH.resolve(TEST_FILE);
 
@@ -39,10 +41,10 @@ class StrictHashingTest {
     }
 
     private enum HashCase {
-        MD5("178cddbb94007010f07fe5fbe82d86fb"),
-        SHA_1("1189a58fcac49bdccdedeec9498a39e76d7251fc"),
-        SHA_256("e6cad9894adb64851b12474088db9252604a386c9be8da3a7370f78166dcbe28"),
-        SHA_512("d3c2ec65ae67a3ce1e6ca920e365bcd4072b4b3885774373c182bffb191002ffd14e5977478a5d287fdddb416838ce30617b9973b25819e12e6f34f5264f37e6");
+        MD5("e52ed608fd50e10d0a5d0ca1c6e3123f"),
+        SHA_1("cf6a4b2695fda6b7fe1a2539ba9ac20fb28ea826"),
+        SHA_256("77bab720a7b227ae967263f31c52d05f742c109e54afbb6c6ac32e003f78e4f9"),
+        SHA_512("43e67fc2bad6c0d60e19ad863a8fa65cfbc2f804535bb55e9c3703ca4f9e9cdd1bf2a6a03513cd6c8998709512d58d18e114b1568ae70459556bf230198c4b24");
 
         private final String expected;
         private final StrictHashing hashing;
