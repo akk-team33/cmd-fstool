@@ -37,7 +37,7 @@ class SieveTest implements Context {
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath2);
         Move.runnable(this, getClass().getSimpleName(), List.of(
                 testPath2.resolve("main").toString(),
-                "../../" + testPath1.getFileName() + "/main/alt/$P/$F",
+                "../../" + testPath1.getFileName() + "/main/alt/@P/@F",
                 "-r"))
             .run();
         assertFalse(Files.exists(indexPath));

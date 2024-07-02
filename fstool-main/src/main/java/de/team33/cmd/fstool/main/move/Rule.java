@@ -8,16 +8,16 @@ import static java.util.function.Predicate.not;
 
 enum Rule {
 
-    FILE_YEAR("$Y"::equals, rule -> FileInfo::getLastModifiedYear),
-    FILE_MONTH("$M"::equals, rule -> FileInfo::getLastModifiedMonth),
-    FILE_DAY("$D"::equals, rule -> FileInfo::getLastModifiedDay),
-    FILE_NAME("$N"::equals, rule -> FileInfo::getFileName),
-    FULL_NAME("$F"::equals, rule -> FileInfo::getFullName),
-    EXTENSION("$X"::equals, rule -> FileInfo::getExtensionLC),
-    REL_PATH("$P"::equals, rule -> FileInfo::getRelativePath),
-    HASH("$#"::equals, rule -> FileInfo::getHash),
-    DOLLAR("$$"::equals, rule -> fileInfo -> "$"),
-    PLAIN(not(rule -> rule.startsWith("$")), rule -> fileInfo -> rule);
+    FILE_YEAR("@Y"::equals, rule -> FileInfo::getLastModifiedYear),
+    FILE_MONTH("@M"::equals, rule -> FileInfo::getLastModifiedMonth),
+    FILE_DAY("@D"::equals, rule -> FileInfo::getLastModifiedDay),
+    FILE_NAME("@N"::equals, rule -> FileInfo::getFileName),
+    FULL_NAME("@F"::equals, rule -> FileInfo::getFullName),
+    EXTENSION("@X"::equals, rule -> FileInfo::getExtensionLC),
+    REL_PATH("@P"::equals, rule -> FileInfo::getRelativePath),
+    HASH("@#"::equals, rule -> FileInfo::getHash),
+    AT("@@"::equals, rule -> fileInfo -> "@"),
+    PLAIN(not(rule -> rule.startsWith("@")), rule -> fileInfo -> rule);
 
     private final Predicate<String> filter;
     private final Function<String, Function<FileInfo, String>> mapping;

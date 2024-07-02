@@ -44,12 +44,12 @@ class SegmentTest {
     @SuppressWarnings("unused")
     enum Case {
         PLAIN_ONLY("plain", path -> "plain"),
-        DOLLAR("$$", path -> "$"),
-        FULL_NAME("$F", path -> path.getFileName().toString()),
-        NAME_ONLY("$N", Util::nameOnly),
-        EXT_ONLY("$X", Util::extOnly),
-        NAME_EXT("$N.$X", path -> path.getFileName().toString()),
-        PRE_NAME_EXT_POST("pre.$N.$X.post", path -> "pre." + path.getFileName().toString() + ".post");
+        DOLLAR("@@", path -> "@"),
+        FULL_NAME("@F", path -> path.getFileName().toString()),
+        NAME_ONLY("@N", Util::nameOnly),
+        EXT_ONLY("@X", Util::extOnly),
+        NAME_EXT("@N.@X", path -> path.getFileName().toString()),
+        PRE_NAME_EXT_POST("pre.@N.@X.post", path -> "pre." + path.getFileName().toString() + ".post");
 
         final String rule;
         final Function<Path, String> expected;

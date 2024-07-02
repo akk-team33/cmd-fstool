@@ -39,16 +39,16 @@ public class Move implements Runnable {
             "%n" +
             "      TOKENs (case sensitive!):%n" +
             "%n" +
-            "          $Y -> the year the file in question was last modified.%n" +
-            "          $M -> the month the file in question was last modified.%n" +
-            "          $D -> the day the file in question was last modified.%n" +
-            "          $X -> the filename extension of the file in question.%n" +
-            "          $N -> the filename without extension of the file in question.%n" +
-            "          $F -> the full filename (with extension) of the file in question.%n" +
-            "          $P -> the relative path from the working directory up to the%n" +
+            "          @Y -> the year the file in question was last modified.%n" +
+            "          @M -> the month the file in question was last modified.%n" +
+            "          @D -> the day the file in question was last modified.%n" +
+            "          @X -> the filename extension of the file in question.%n" +
+            "          @N -> the filename without extension of the file in question.%n" +
+            "          @F -> the full filename (with extension) of the file in question.%n" +
+            "          @P -> the relative path from the working directory up to the%n" +
             "                parent of the file in question.%n" +
-            "          $# -> a hash value over the content of the file in question.%n" +
-            "          $$ -> The dollar symbol%n" +
+            "          @# -> a hash value over the content of the file in question.%n" +
+            "          @@ -> The `at` symbol%n" +
             "%n" +
             "Optional arguments:%n" +
             "%n" +
