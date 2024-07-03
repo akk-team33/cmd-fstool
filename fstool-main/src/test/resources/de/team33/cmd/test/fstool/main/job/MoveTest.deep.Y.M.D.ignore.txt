@@ -1,24 +1,18 @@
-run(FLAT_Y_n_x) : DIRECTORY {
-    main : DIRECTORY {
-        (moved) : DIRECTORY {
-            2023 : DIRECTORY {
-                Command : DIRECTORY {
-                    java : DIRECTORY {
-                        Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
-                    };
+run(DEEP_Y_M_D_IGNORE) : DIRECTORY {
+    (moved) : DIRECTORY {
+        2023 : DIRECTORY {
+            09 : DIRECTORY {
+                21 : DIRECTORY {
+                    Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
                 };
-                Help : DIRECTORY {
-                    java : DIRECTORY {
-                        Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
-                    };
-                };
-                Main : DIRECTORY {
-                    java : DIRECTORY {
-                        Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
-                    };
+                24 : DIRECTORY {
+                    Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
+                    Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
                 };
             };
         };
+    };
+    main : DIRECTORY {
         api : DIRECTORY {
             BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
             Context.java : REGULAR (121, 2023-09-21T09:06:15Z);

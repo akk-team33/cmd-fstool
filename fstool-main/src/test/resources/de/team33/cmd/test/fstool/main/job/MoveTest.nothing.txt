@@ -1,18 +1,8 @@
-run(FLAT_Y_M_D) : DIRECTORY {
+run(NOTHING_TO_DO) : DIRECTORY {
     main : DIRECTORY {
-        (moved) : DIRECTORY {
-            2023 : DIRECTORY {
-                09 : DIRECTORY {
-                    21 : DIRECTORY {
-                        Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
-                    };
-                    24 : DIRECTORY {
-                        Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
-                        Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
-                    };
-                };
-            };
-        };
+        Command.java : REGULAR (2.658, 2023-09-24T16:00:16Z);
+        Help.java : REGULAR (455, 2023-09-21T09:06:15Z);
+        Main.java : REGULAR (1.515, 2023-09-24T13:32:15Z);
         api : DIRECTORY {
             BadRequestException.java : REGULAR (188, 2023-09-21T09:06:15Z);
             Context.java : REGULAR (121, 2023-09-21T09:06:15Z);

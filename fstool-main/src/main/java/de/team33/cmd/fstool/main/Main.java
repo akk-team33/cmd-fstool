@@ -30,7 +30,7 @@ public class Main implements Context {
                 return Job.runnable(this, args.get(0), args.subList(1, args.size()));
             }
         } catch (final BadRequestException e) {
-            return () -> printf("%s%nYour request is incomplete or incorrect:%n%n    %s%n%n%s%n%n",
+            return () -> printf("%s%nYour request:%n%n    %s%n%n%s%n%n",
                                 TextIO.read(Main.class, "head.txt"),
                                 argsInLine(args),
                                 e.getMessage());

@@ -1,4 +1,4 @@
-main : DIRECTORY {
+run(DEEP_Y_M_D) : DIRECTORY {
     (moved) : DIRECTORY {
         2023 : DIRECTORY {
             09 : DIRECTORY {

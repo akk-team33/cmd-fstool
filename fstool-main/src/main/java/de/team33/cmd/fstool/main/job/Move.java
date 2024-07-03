@@ -25,17 +25,18 @@ public class Move implements Runnable {
             "    %2$s move PATH RULE [-r [XCLD_DIR [XCLD_DIR [...]]]]%n" +
             "%n" +
             "    to relocate all regular files located directly* in a given%n" +
-            "    working directory.%n" +
+            "    processing directory.%n" +
             "%n" +
             "    *Optionally, regular files located in subdirectories are also processed.%n" +
             "     Empty subdirectories will finally be removed.%n" +
             "%n" +
             "Required arguments:%n" +
             "%n" +
-            "    PATH : a path to the working directory.%n" +
-            "    RULE : a processing rule that has a similar structure to a%n" +
+            "    PATH : A path to the processing directory.%n" +
+            "    RULE : A processing rule that has a similar structure to a%n" +
             "           relative path, but which can contain TOKENs that are%n" +
             "           interpreted during processing.%n" +
+            "           A resulting path will be resolved from the processing directory.%n" +
             "%n" +
             "      TOKENs (case sensitive!):%n" +
             "%n" +
@@ -45,8 +46,8 @@ public class Move implements Runnable {
             "          @X -> the filename extension of the file in question.%n" +
             "          @N -> the filename without extension of the file in question.%n" +
             "          @F -> the full filename (with extension) of the file in question.%n" +
-            "          @P -> the relative path from the working directory up to the%n" +
-            "                parent of the file in question.%n" +
+            "          @P -> the relative path from the processing directory up to the%n" +
+            "                parent directory of the file in question.%n" +
             "          @# -> a hash value over the content of the file in question.%n" +
             "          @@ -> The `at` symbol%n" +
             "%n" +
