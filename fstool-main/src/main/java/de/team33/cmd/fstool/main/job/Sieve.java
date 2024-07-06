@@ -31,11 +31,11 @@ public class Sieve implements Runnable {
             "    %2$s sieve PATH%n" +
             "%n" +
             "    to relocate all duplicated regular files located in a given%n" +
-            "    working directory.%n" +
+            "    processing directory.%n" +
             "%n" +
             "Required arguments:%n" +
             "%n" +
-            "    PATH : a path to the working directory.";
+            "    PATH : a path to the processing directory.";
 
     private final Context context;
     private final Path mainPath;
