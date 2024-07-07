@@ -48,7 +48,7 @@ public class Move implements Runnable {
             "          @F -> the full filename (with extension) of the file in question.%n" +
             "          @P -> the relative path from the processing directory up to the%n" +
             "                parent directory of the file in question.%n" +
-            "          @# -> a hash value over the content of the file in question.%n" +
+            "          @# -> an sha1 hash value over the content of the file in question.%n" +
             "          @@ -> The `at` symbol%n" +
             "%n" +
             "Optional arguments:%n" +

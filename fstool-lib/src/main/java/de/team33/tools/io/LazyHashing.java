@@ -8,18 +8,18 @@ import static java.lang.String.format;
 
 public class LazyHashing implements FileHashing {
 
-    private static final String PATTERN_FORMAT = "%s[0123456789abcdefABCDEF]{%d}%s";
+    private static final String PATTERN_FORMAT = "%s[0123456789abcdefABCDEF]{%d}";
     
     private final FileHashing backing;
     private final Pattern pattern;
 
-    private LazyHashing(final String prefix, final String postfix, final FileHashing backing) {
+    private LazyHashing(final String prefix, final FileHashing backing) {
         this.backing = backing;
-        this.pattern = Pattern.compile(format(PATTERN_FORMAT, prefix, backing.resultLength(), postfix));
+        this.pattern = Pattern.compile(format(PATTERN_FORMAT, prefix, backing.resultLength()));
     }
 
     public static LazyHashing of(final FileHashing backing) {
-        return new LazyHashing("#", "(\\.|$)", backing);
+        return new LazyHashing("#", backing);
     }
 
     @Override

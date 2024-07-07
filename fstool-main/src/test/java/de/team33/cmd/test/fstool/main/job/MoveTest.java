@@ -59,9 +59,9 @@ class MoveTest implements Context {
                    "MoveTest.deep.Y.M.D.txt"),
         DEEP_Y_M_D_IGNORE(path -> List.of(path.toString(), "..\\(moved)/@Y\\@M/@D\\@F", "-R", "api", "job"),
                           "MoveTest.deep.Y.M.D.ignore.txt"),
-        DEEP_Y_M_D_HASH(path -> List.of(path.toString(), "(moved)/@Y/@M/@D/@#@X", "-r"),
+        DEEP_Y_M_D_HASH(path -> List.of(path.toString(), "(moved)/@Y/@M/@D/@#-pp.@X", "-r"),
                         "MoveTest.deep.Y.M.D.#.txt"),
-        DEEP_R_HASH(path -> List.of(path.toString(), "@P/@N@#@X", "-r"),
+        DEEP_R_HASH(path -> List.of(path.toString(), "@P/@N@#-qrs.@X", "-r"),
                     "MoveTest.deep.R.#.txt"),
         NOTHING_TO_DO(path -> List.of(path.toString(), "@P/@F", "-r"),
                       "MoveTest.nothing.txt");

@@ -81,7 +81,7 @@ class FileInfo {
     }
 
     final String getHash() {
-        return "#" + hash.get() + ".";
+        return "#" + hash.get();
     }
 
     final String getRelativePath() {
