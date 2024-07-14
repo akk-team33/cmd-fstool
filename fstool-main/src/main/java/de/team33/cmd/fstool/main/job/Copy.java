@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -100,12 +103,18 @@ public class Copy implements Runnable {
         if (null != tAttribs) {
             if (!tAttribs.isRegularFile()) {
                 return "target exists but is not a regular file";
-            } else if (sAttribs.lastModifiedTime().compareTo(tAttribs.lastModifiedTime()) == 0) {
+            }
+            final Instant sTime = sAttribs.lastModifiedTime().toInstant();
+            final Instant tTime = tAttribs.lastModifiedTime().toInstant();
+            final long delta = Math.abs(sTime.until(tTime, ChronoUnit.MILLIS));
+            //context.printf("sTime: %s - tTime: %s - delta: %d%n", sTime, tTime, delta);
+            if (1000L >= delta && sAttribs.size() == tAttribs.size()) {
                 return "target already exists - not updated";
             }
         }
         try {
             Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
+            Files.setLastModifiedTime(target, sAttribs.lastModifiedTime());
             return "ok";
         } catch (IOException e) {
             return "failed: " + e.getMessage() + " (" + e.getClass().getCanonicalName() + ")";
