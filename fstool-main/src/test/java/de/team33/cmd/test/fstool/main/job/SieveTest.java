@@ -32,7 +32,7 @@ class SieveTest implements Context {
         final String uuid2 = UUID.randomUUID().toString();
         final Path testPath2 = TEST_PATH.resolve(uuid2);
         final Path mainPath = testPath1.resolve("main");
-        final Path indexPath = mainPath.resolve("(sieved-unique).txt");
+        final Path indexPath = mainPath.resolve("(sieved-unique-final).txt");
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath1);
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath2);
         Move.runnable(this, getClass().getSimpleName(), List.of(

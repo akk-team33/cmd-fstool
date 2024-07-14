@@ -3,6 +3,7 @@ package de.team33.cmd.fstool.main;
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.Clean;
+import de.team33.cmd.fstool.main.job.Copy;
 import de.team33.cmd.fstool.main.job.DirCopy;
 import de.team33.cmd.fstool.main.job.Info;
 import de.team33.cmd.fstool.main.job.MKDate;
@@ -28,7 +29,8 @@ public enum Job {
     CLEAN(Args::clean, "Remove all empty directories within a given directory substructure."),
     MOVE(Args::move, "Relocate all regular files located in a given directory."),
     SIEVE(Args::sieve, "Relocate all duplicated regular files located in a given directory."),
-    INFO(Args::info, "Get information about a given file or directory.");
+    INFO(Args::info, "Get information about a given file or directory."),
+    COPY(Args::copy, "Copy files from a source directory to a target directory");
 
     private static final String NEW_LINE = String.format("%n    ");
     private static final Collector<CharSequence, ?, String> JOINING = Collectors.joining(NEW_LINE);
@@ -105,6 +107,10 @@ public enum Job {
 
         Runnable info() {
             return Info.runnable(context, shellCmd, args);
+        }
+
+        Runnable copy() {
+            return Copy.runnable(context, shellCmd, args);
         }
     }
 }

@@ -40,7 +40,8 @@ public class Sieve implements Runnable {
     private final Context context;
     private final Path mainPath;
     private final Path doubletPath;
-    private final Path indexPath;
+    private final Path indexInitialPath;
+    private final Path indexFinalPath;
     private final Map<String, Entry> index;
     private final FileHashing hashing;
 
@@ -48,7 +49,8 @@ public class Sieve implements Runnable {
         this.context = context;
         this.mainPath = Paths.get(path).toAbsolutePath().normalize();
         this.doubletPath = Paths.get(mainPath.toString() + ".(sieved-moved)");
-        this.indexPath = mainPath.resolve("(sieved-unique).txt");
+        this.indexInitialPath = mainPath.resolve("(sieved-unique-initial).txt");
+        this.indexFinalPath = mainPath.resolve("(sieved-unique-final).txt");
         this.hashing = LazyHashing.of(StrictHashing.SHA_1);
 
         if (!Files.isDirectory(mainPath, LinkOption.NOFOLLOW_LINKS)) {
@@ -70,7 +72,7 @@ public class Sieve implements Runnable {
 
     private HashMap<String, Entry> readIndex() {
         try {
-            return Files.readAllLines(indexPath, StandardCharsets.UTF_8)
+            return Files.readAllLines(indexInitialPath, StandardCharsets.UTF_8)
                         .stream()
                         .map(Entry::parse)
                         .collect(HashMap::new, (map, entry) -> map.put(entry.hash, entry), Map::putAll);
@@ -80,7 +82,7 @@ public class Sieve implements Runnable {
     }
 
     private void writeIndex() {
-        try (final BufferedWriter writer = Files.newBufferedWriter(indexPath,
+        try (final BufferedWriter writer = Files.newBufferedWriter(indexFinalPath,
                                                                    StandardOpenOption.CREATE,
                                                                    StandardOpenOption.TRUNCATE_EXISTING)) {
             for (final Entry entry : index.values()) {
@@ -91,7 +93,7 @@ public class Sieve implements Runnable {
             }
             writer.flush();
         } catch (final IOException e) {
-            throw new IllegalStateException("could not write index <" + indexPath + ">", e);
+            throw new IllegalStateException("could not write index <" + indexFinalPath + ">", e);
         }
     }
 
@@ -103,7 +105,8 @@ public class Sieve implements Runnable {
                  .stream()
                  .filter(FileEntry::isRegularFile)
                  .map(FileEntry::path)
-                 .filter(not(indexPath::equals))
+                 .filter(not(indexInitialPath::equals))
+                 .filter(not(indexFinalPath::equals))
                  .filter(not(this::isUnique))
                  .forEach(this::move);
         writeIndex();
