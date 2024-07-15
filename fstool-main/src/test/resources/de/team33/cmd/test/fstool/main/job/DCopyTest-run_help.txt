@@ -3,7 +3,7 @@
 +------------------------------------------------------------------------------
 Your request:
 
-    DCopyTest dcopy
+    %s
 
 Expected request scheme:
 
@@ -17,4 +17,4 @@ Expected request scheme:
 Required arguments:
 
     SRC_PATH: a path to the source directory.
-    TGT_PATH: a path to the target directory (may not exist yet).
+    TGT_PATH: a path to the target directory (may not exist yet).%n%n
