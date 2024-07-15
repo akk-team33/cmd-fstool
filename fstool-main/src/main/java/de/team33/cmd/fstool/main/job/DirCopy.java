@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 public class DirCopy implements Runnable {
 
+    public static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
     private static final String PROBLEM_FMT = //
             "Problem:%n" +
             "%n" +
@@ -58,12 +59,8 @@ public class DirCopy implements Runnable {
         }
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
+    public static Runnable job(final Context context, final List<String> args) {
         return new DirCopy(context, args.get(0), args.subList(1, args.size()));
-    }
-
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
-        return new DirCopy(context, shellCmd, args);
     }
 
     @Override

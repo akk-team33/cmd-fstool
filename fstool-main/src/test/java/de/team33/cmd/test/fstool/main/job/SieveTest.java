@@ -35,10 +35,10 @@ class SieveTest implements Context {
         final Path indexPath = mainPath.resolve("(sieved-unique-final).txt");
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath1);
         ZipIO.unzip(getClass(), "SomeFiles.zip", testPath2);
-        Move.runnable(this, getClass().getSimpleName(), List.of(
-                testPath2.resolve("main").toString(),
-                "../../" + testPath1.getFileName() + "/main/alt/@P/@F",
-                "-r"))
+        Move.job(this, List.of(getClass().getSimpleName(),
+                               testPath2.resolve("main").toString(),
+                               "../../" + testPath1.getFileName() + "/main/alt/@P/@F",
+                               "-r"))
             .run();
         assertFalse(Files.exists(indexPath));
         assertEquals(TextIO.read(getClass(), "Sieve.initial.txt"),
@@ -46,7 +46,7 @@ class SieveTest implements Context {
                      () -> "initial state of <" + mainPath + "> is not as expected!");
 
         // when...
-        Sieve.runnable(this, getClass().getSimpleName(), List.of(mainPath.toString()))
+        Sieve.job(this, getClass().getSimpleName(), List.of(mainPath.toString()))
              .run();
 
         // then ...
@@ -57,7 +57,7 @@ class SieveTest implements Context {
                      () -> "final state of <" + mainPath + "> is not as expected (Sieve.result.txt)!");
 
         // again: when...
-        Sieve.runnable(this, getClass().getSimpleName(), List.of(mainPath.toString()))
+        Sieve.job(this, getClass().getSimpleName(), List.of(mainPath.toString()))
              .run();
 
         // again: then ...

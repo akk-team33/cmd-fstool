@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public final class Clean implements Runnable {
 
+    public static final String EXCERPT = "Remove all empty directories within a given directory substructure.";
     private static final String HELP_FORMAT = "%sExpected request scheme:%n" +
                                               "%n" +
                                               "    %s clean [-dry] PATH%n" +
@@ -45,11 +46,11 @@ public final class Clean implements Runnable {
         }
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
-        return runnable(context, args.get(0), args.subList(1, args.size()));
+    public static Runnable job(final Context context, final List<String> args) {
+        return job(context, args.get(0), args.subList(1, args.size()));
     }
 
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
+    private static Runnable job(final Context context, final String shellCmd, final List<String> args) {
         if (0 < args.size() && "-dry".equalsIgnoreCase(args.get(0))) {
             return new Clean(context, shellCmd, Mode.DRY, args.subList(1, args.size()));
         } else {

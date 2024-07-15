@@ -25,6 +25,7 @@ import static java.util.function.Predicate.not;
 
 public class Sieve implements Runnable {
 
+    public static final String EXCERPT = "Relocate all duplicated regular files located in a given directory.";
     private static final String HELP_FORMAT = //
             "%1$sExpected request scheme:%n" +
             "%n" +
@@ -61,11 +62,11 @@ public class Sieve implements Runnable {
         this.index = readIndex();
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
-        return runnable(context, args.get(0), args.subList(1, args.size()));
+    public static Runnable job(final Context context, final List<String> args) {
+        return job(context, args.get(0), args.subList(1, args.size()));
     }
 
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
+    public static Runnable job(final Context context, final String shellCmd, final List<String> args) {
         final int size = args.size();
         if (1 == size) {
             return new Sieve(context, shellCmd, args.get(0));

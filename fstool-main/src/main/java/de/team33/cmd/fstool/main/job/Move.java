@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 public class Move implements Runnable {
 
+    public static final String EXCERPT = "Relocate all regular files located in a given directory.";
     private static final String HELP_FORMAT = //
             "%1$sExpected request scheme:%n" +
             "%n" +
@@ -86,11 +87,11 @@ public class Move implements Runnable {
         }
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
-        return runnable(context, args.get(0), args.subList(1, args.size()));
+    public static Runnable job(final Context context, final List<String> args) {
+        return job(context, args.get(0), args.subList(1, args.size()));
     }
 
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
+    private static Runnable job(final Context context, final String shellCmd, final List<String> args) {
         final int size = args.size();
         if (2 < size && "-r".equalsIgnoreCase(args.get(2))) {
             return new Move(context, shellCmd, true, args.subList(0, 2), args.subList(3, size));
@@ -120,7 +121,7 @@ public class Move implements Runnable {
                 .filter(FileEntry::isRegularFile)
                 .map(FileEntry::path)
                 .forEach(this::move);
-        Clean.runnable(context, Move.class.getSimpleName(), List.of(mainPath.toString()))
+        Clean.job(context, List.of(Move.class.getSimpleName(), mainPath.toString()))
              .run();
     }
 

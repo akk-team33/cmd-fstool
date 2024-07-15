@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.stream.Stream;
 
 public class Copy implements Runnable {
 
+    public static final String EXCERPT = "Copy files from a source directory to a target directory";
     private static final String PROBLEM_FMT = //
             "Problem:%n" +
             "%n" +
@@ -63,12 +63,8 @@ public class Copy implements Runnable {
         }
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
+    public static Runnable job(final Context context, final List<String> args) {
         return new Copy(context, args.get(0), args.subList(1, args.size()));
-    }
-
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
-        return new Copy(context, shellCmd, args);
     }
 
     @Override

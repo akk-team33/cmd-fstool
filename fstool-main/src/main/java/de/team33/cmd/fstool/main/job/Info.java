@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Info implements Runnable {
 
+    public static final String EXCERPT = "Get information about a given file or directory.";
     private static final String HELP_FORMAT = //
             "Expected request scheme:%n" +
             "%n" +
@@ -33,12 +34,8 @@ public class Info implements Runnable {
         this.tgtPath = Paths.get(args.get(0)).toAbsolutePath().normalize();
     }
 
-    public static Runnable runnable(final Context context, final List<String> args) {
+    public static Runnable job(final Context context, final List<String> args) {
         return new Info(context, args.get(0), args.subList(1, args.size()));
-    }
-
-    public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
-        return new Info(context, shellCmd, args);
     }
 
     @Override

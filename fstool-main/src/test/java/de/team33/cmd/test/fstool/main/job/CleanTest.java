@@ -42,9 +42,7 @@ class CleanTest implements Context {
                      () -> "initial state of <" + mainPath + "> is not as expected!");
 
         // when...
-        Clean.runnable(this,
-                       CleanTest.class.getSimpleName(),
-                       List.of(mainPath.toString()))
+        Clean.job(this, List.of(CleanTest.class.getSimpleName(), mainPath.toString()))
              .run();
 
         // then ...
