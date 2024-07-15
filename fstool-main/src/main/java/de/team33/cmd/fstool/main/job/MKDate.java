@@ -36,6 +36,10 @@ public class MKDate implements Runnable {
         this.tgtPath = Paths.get(args.get(0)).toAbsolutePath().normalize();
     }
 
+    public static Runnable runnable(final Context context, final List<String> args) {
+        return new MKDate(context, args.get(0), args.subList(1, args.size()));
+    }
+
     public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
         return new MKDate(context, shellCmd, args);
     }

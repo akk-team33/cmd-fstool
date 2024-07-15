@@ -7,9 +7,9 @@ Your request:
 
 Expected request scheme:
 
-    MainTest COMMAND [arg [, arg [, ...]]]
+    MainTest TASK [arg [, arg [, ...]]]
 
-Available COMMANDs (case insensitive):
+Available TASKs (case insensitive):
 
     ABOUT : Get basic info about this application.
     SETUP : GET or SET the user specific setup.
@@ -20,9 +20,10 @@ Available COMMANDs (case insensitive):
     MOVE : Relocate all regular files located in a given directory.
     SIEVE : Relocate all duplicated regular files located in a given directory.
     INFO : Get information about a given file or directory.
+    COPY : Copy files from a source directory to a target directory
 
 Type ...
 
-    MainTest COMMAND
+    MainTest TASK
 
-... to get more information about the specified COMMAND.
+... to get more information about the specified TASK.

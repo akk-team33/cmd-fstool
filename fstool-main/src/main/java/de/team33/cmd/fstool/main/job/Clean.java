@@ -45,6 +45,10 @@ public final class Clean implements Runnable {
         }
     }
 
+    public static Runnable runnable(final Context context, final List<String> args) {
+        return runnable(context, args.get(0), args.subList(1, args.size()));
+    }
+
     public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
         if (0 < args.size() && "-dry".equalsIgnoreCase(args.get(0))) {
             return new Clean(context, shellCmd, Mode.DRY, args.subList(1, args.size()));

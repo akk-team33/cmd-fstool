@@ -61,6 +61,10 @@ public class Sieve implements Runnable {
         this.index = readIndex();
     }
 
+    public static Runnable runnable(final Context context, final List<String> args) {
+        return runnable(context, args.get(0), args.subList(1, args.size()));
+    }
+
     public static Runnable runnable(final Context context, final String shellCmd, final List<String> args) {
         final int size = args.size();
         if (1 == size) {

@@ -1,43 +1,47 @@
 package de.team33.cmd.fstool.main;
 
-import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.deimos.TextIO;
+import de.team33.cmd.fstool.main.job.BadArgs;
+import de.team33.cmd.fstool.main.job.NoArgs;
+import de.team33.cmd.fstool.main.job.Regular;
+import de.team33.patterns.enums.alpha.EnumTool;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-public class Main implements Context {
+public enum Main implements Context  {
 
-    private final Runnable job;
+    NO_ARGS(NoArgs::test, NoArgs::job),
+    REGULAR(Regular::test, Regular::job),
+    BAD_ARGS(BadArgs::test, BadArgs::job);
 
-    private Main(final List<String> args) {
-        this.job = newJob(args);
+    private static final EnumTool<Main> TOOL = EnumTool.of(Main.class)
+                                                       .fallback(BAD_ARGS);
+
+    private final Predicate<List<String>> filter;
+    private final BiFunction<Context, List<String>, Runnable> toJob;
+
+    Main(final Predicate<List<String>> filter, final BiFunction<Context, List<String>, Runnable> toJob) {
+        this.filter = filter;
+        this.toJob = toJob;
     }
 
     public static void main(final String... args) {
-        new Main(List.of(args)).run();
+        job(Arrays.asList(args)).run();
     }
 
-    private static String argsInLine(final List<String> args) {
-        return args.isEmpty() ? "*called without arguments*" : String.join(" ", args);
+    private static Runnable job(final List<String> args) {
+        return TOOL.mapFirst(toFilter(args), toJob(args));
     }
 
-    private Runnable newJob(final List<String> args) {
-        try {
-            if (args.size() < 1) {
-                throw new BadRequestException(TextIO.read(Main.class, "main.txt"));
-            } else {
-                return Job.runnable(this, args.get(0), args.subList(1, args.size()));
-            }
-        } catch (final BadRequestException e) {
-            return () -> printf("%s%nYour request:%n%n    %s%n%n%s%n%n",
-                                TextIO.read(Main.class, "head.txt"),
-                                argsInLine(args),
-                                e.getMessage());
-        }
+    private static Predicate<Main> toFilter(final List<String> args) {
+        return item -> item.filter.test(args);
     }
 
-    private void run() {
-        job.run();
+    private static Function<Main, Runnable> toJob(final List<String> args) {
+        return item -> item.toJob.apply(item, args);
     }
 }
