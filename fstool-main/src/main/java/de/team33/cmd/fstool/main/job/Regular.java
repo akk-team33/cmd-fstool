@@ -13,7 +13,7 @@ public enum Regular {
 
     ABOUT(About::job, About.EXCERPT),
     SETUP(Setup::job, Setup.EXCERPT),
-    DCOPY(DirCopy::job, DirCopy.EXCERPT),
+    DCOPY(DCopy::job, DCopy.EXCERPT),
     MKDATE(MKDate::job, MKDate.EXCERPT),
     MKTIME(MKTime::job, MKTime.EXCERPT),
     CLEAN(Clean::job, Clean.EXCERPT),

@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DirCopy implements Runnable {
+public class DCopy implements Runnable {
 
     public static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
     private static final String PROBLEM_FMT = //
@@ -38,7 +38,7 @@ public class DirCopy implements Runnable {
     private final Path srcPath;
     private final Path tgtPath;
 
-    public DirCopy(final Context context, final String shellCmd, final List<String> args) {
+    public DCopy(final Context context, final String shellCmd, final List<String> args) {
         if (2 != args.size()) {
             throw new BadRequestException(String.format(HELP_FORMAT, "", shellCmd));
         }
@@ -60,7 +60,7 @@ public class DirCopy implements Runnable {
     }
 
     public static Runnable job(final Context context, final List<String> args) {
-        return new DirCopy(context, args.get(0), args.subList(1, args.size()));
+        return new DCopy(context, args.get(0), args.subList(1, args.size()));
     }
 
     @Override
