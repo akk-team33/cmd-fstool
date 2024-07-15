@@ -1,0 +1,20 @@
++------------------------------------------------------------------------------
+| ${project.groupId} - ${project.artifactId} - version ${project.version}
++------------------------------------------------------------------------------
+Your request:
+
+    DCopyTest dcopy
+
+Expected request scheme:
+
+    DCopyTest dcopy SRC_PATH TGT_PATH
+
+    to copy the subdirectory structure from a source directory
+    to a target directory. The target directory will be created
+    if it does not currently exist. Existing files or subdirectories
+    in the target directory remain unaffected.
+
+Required arguments:
+
+    SRC_PATH: a path to the source directory.
+    TGT_PATH: a path to the target directory (may not exist yet).

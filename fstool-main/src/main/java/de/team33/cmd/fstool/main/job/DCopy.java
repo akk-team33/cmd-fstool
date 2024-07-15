@@ -2,6 +2,7 @@ package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
+import de.team33.patterns.io.deimos.TextIO;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,10 +40,6 @@ public class DCopy implements Runnable {
     private final Path tgtPath;
 
     public DCopy(final Context context, final String shellCmd, final List<String> args) {
-        if (2 != args.size()) {
-            throw new BadRequestException(String.format(HELP_FORMAT, "", shellCmd));
-        }
-
         this.context = context;
         this.srcPath = Paths.get(args.get(0)).toAbsolutePath().normalize();
         this.tgtPath = Paths.get(args.get(1)).toAbsolutePath().normalize();
@@ -60,7 +57,14 @@ public class DCopy implements Runnable {
     }
 
     public static Runnable job(final Context context, final List<String> args) {
-        return new DCopy(context, args.get(0), args.subList(1, args.size()));
+        if (args.size() == 4) {
+            return new DCopy(context, args.get(0), args.subList(2, args.size()));
+        } else {
+            final String cmdLine = String.join(" ", args);
+            final String cmdName = args.get(0);
+            final String format = TextIO.read(DCopy.class, "DCopy.txt");
+            return () -> context.printf(format, cmdLine, cmdName);
+        }
     }
 
     @Override
