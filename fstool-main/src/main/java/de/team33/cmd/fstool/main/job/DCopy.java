@@ -1,8 +1,8 @@
 package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.cmd.fstool.main.common.ValidationException;
-import de.team33.cmd.fstool.main.common.Validator;
+import de.team33.cmd.fstool.main.common.ResolveException;
+import de.team33.cmd.fstool.main.common.Resolving;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,30 +21,25 @@ public class DCopy implements Runnable {
     private final Path srcPath;
     private final Path tgtPath;
 
-    private DCopy(final Context context, final Path srcPath, final Path tgtPath) {
+    private DCopy(final Context context, final List<String> args) throws ResolveException {
+        if (args.size() != 4) {
+            throw new ResolveException();
+        }
+        final Path srcPath = Paths.get(args.get(2));
+        if (!Files.isDirectory(srcPath)) {
+            throw new ResolveException("source path <" + srcPath + "> is not a directory");
+        }
+        final Path tgtPath = Paths.get(args.get(3));
+        if (Files.exists(tgtPath) && !Files.isDirectory(tgtPath)) {
+            throw new ResolveException("target path <" + tgtPath + "> exists but is not a directory");
+        }
         this.context = context;
         this.srcPath = srcPath.toAbsolutePath().normalize();
         this.tgtPath = tgtPath.toAbsolutePath().normalize();
     }
 
     public static Runnable job(final Context context, final List<String> args) {
-        return Validator.by(DCopy.class, context, args)
-                        .validated(() -> primaryJob(context, args));
-    }
-
-    private static DCopy primaryJob(Context context, List<String> args) throws ValidationException {
-        if (args.size() != 4) {
-            throw new ValidationException();
-        }
-        final Path srcPath = Paths.get(args.get(2));
-        if (!Files.isDirectory(srcPath)) {
-            throw new ValidationException("source path <" + srcPath + "> is not a directory");
-        }
-        final Path tgtPath = Paths.get(args.get(3));
-        if (Files.exists(tgtPath) && !Files.isDirectory(tgtPath)) {
-            throw new ValidationException("target path <" + tgtPath + "> exists but is not a directory");
-        }
-        return new DCopy(context, srcPath, tgtPath);
+        return Resolving.job(DCopy.class, context, args, DCopy::new);
     }
 
     @Override
