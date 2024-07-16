@@ -2,11 +2,14 @@ package de.team33.cmd.fstool.main.common;
 
 public class ResolveException extends Exception {
 
-    public ResolveException() {
-        super(null, null);
+    private final Class<?> originatorClass;
+
+    public ResolveException(final Class<?> originatorClass, final String message) {
+        super(message, null);
+        this.originatorClass = originatorClass;
     }
 
-    public ResolveException(final String message) {
-        super(message, null);
+    public final Class<?> getOriginatorClass() {
+        return originatorClass;
     }
 }

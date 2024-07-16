@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 public class DCopy implements Runnable {
 
     public static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
-    private static final String PROBLEM_FMT = "Problem:%n%n    %s%n%n";
 
     private final Context context;
     private final Path srcPath;
@@ -23,23 +22,27 @@ public class DCopy implements Runnable {
 
     private DCopy(final Context context, final List<String> args) throws ResolveException {
         if (args.size() != 4) {
-            throw new ResolveException();
+            throw newResolveException(null);
         }
         final Path srcPath = Paths.get(args.get(2));
         if (!Files.isDirectory(srcPath)) {
-            throw new ResolveException("source path <" + srcPath + "> is not a directory");
+            throw newResolveException("source path <" + srcPath + "> is not a directory");
         }
         final Path tgtPath = Paths.get(args.get(3));
         if (Files.exists(tgtPath) && !Files.isDirectory(tgtPath)) {
-            throw new ResolveException("target path <" + tgtPath + "> exists but is not a directory");
+            throw newResolveException("target path <" + tgtPath + "> exists but is not a directory");
         }
         this.context = context;
         this.srcPath = srcPath.toAbsolutePath().normalize();
         this.tgtPath = tgtPath.toAbsolutePath().normalize();
     }
 
+    private static ResolveException newResolveException(final String message) {
+        return new ResolveException(DCopy.class, message);
+    }
+
     public static Runnable job(final Context context, final List<String> args) {
-        return Resolving.job(DCopy.class, context, args, DCopy::new);
+        return Resolving.job(context, args, DCopy::new);
     }
 
     @Override
