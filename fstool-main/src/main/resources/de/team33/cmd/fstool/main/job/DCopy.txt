@@ -5,7 +5,7 @@ Your request:
 
     %1$s
 
-Expected request scheme:
+%3$sExpected request scheme:
 
     %2$s dcopy SRC_PATH TGT_PATH
 

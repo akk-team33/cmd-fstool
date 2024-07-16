@@ -3,9 +3,9 @@
 +------------------------------------------------------------------------------
 Your request:
 
-    %s
+    %1$s
 
-Expected request scheme:
+%2$sExpected request scheme:
 
     DCopyTest dcopy SRC_PATH TGT_PATH
 

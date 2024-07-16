@@ -1,6 +1,5 @@
 package de.team33.cmd.fstool.main.job;
 
-import de.team33.cmd.fstool.main.common.BadRequestException;
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.patterns.io.deimos.TextIO;
 
@@ -9,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,51 +20,37 @@ public class DCopy implements Runnable {
             "%n" +
             "    %s%n" +
             "%n";
-    private static final String HELP_FORMAT = //
-            "%sExpected request scheme:%n" +
-            "%n" +
-            "    %s dcopy SRC_PATH TGT_PATH%n" +
-            "%n" +
-            "    to copy the subdirectory structure from a source directory%n" +
-            "    to a target directory. The target directory will be created%n" +
-            "    if it does not currently exist. Existing files or subdirectories%n" +
-            "    in the target directory remain unaffected.%n" +
-            "%n" +
-            "Required arguments:%n" +
-            "%n" +
-            "    SRC_PATH: a path to the source directory.%n" +
-            "    TGT_PATH: a path to the target directory (may not exist yet).";
 
     private final Context context;
     private final Path srcPath;
     private final Path tgtPath;
 
-    public DCopy(final Context context, final String shellCmd, final List<String> args) {
+    private DCopy(final Context context, final Path srcPath, final Path tgtPath) {
         this.context = context;
-        this.srcPath = Paths.get(args.get(0)).toAbsolutePath().normalize();
-        this.tgtPath = Paths.get(args.get(1)).toAbsolutePath().normalize();
-
-        if (!Files.isDirectory(srcPath)) {
-            final String problem = String.format(PROBLEM_FMT, "not a directory: " + args.get(0));
-            throw new BadRequestException(String.format(HELP_FORMAT, problem, shellCmd));
-        }
-
-        if (Files.exists(tgtPath, LinkOption.NOFOLLOW_LINKS)
-            && !Files.isDirectory(tgtPath, LinkOption.NOFOLLOW_LINKS)) {
-            final String problem = String.format(PROBLEM_FMT, "not a directory: " + args.get(1));
-            throw new BadRequestException(String.format(HELP_FORMAT, problem, shellCmd));
-        }
+        this.srcPath = srcPath.toAbsolutePath().normalize();
+        this.tgtPath = tgtPath.toAbsolutePath().normalize();
     }
 
     public static Runnable job(final Context context, final List<String> args) {
+        final List<String> problems = new ArrayList<>(1);
         if (args.size() == 4) {
-            return new DCopy(context, args.get(0), args.subList(2, args.size()));
-        } else {
-            final String cmdLine = String.join(" ", args);
-            final String cmdName = args.get(0);
-            final String format = TextIO.read(DCopy.class, "DCopy.txt");
-            return () -> context.printf(format, cmdLine, cmdName);
+            final Path srcPath = Paths.get(args.get(2));
+            final Path tgtPath = Paths.get(args.get(3));
+            if (Files.isDirectory(srcPath)) {
+                if (!Files.exists(tgtPath) || Files.isDirectory(tgtPath)) {
+                    return new DCopy(context, srcPath, tgtPath);
+                } else {
+                    problems.add("target path <" + tgtPath + "> exists but is not a directory");
+                }
+            } else {
+                problems.add("source path <" + srcPath + "> is not a directory");
+            }
         }
+        final String cmdLine = String.join(" ", args);
+        final String cmdName = args.get(0);
+        final String problem = problems.isEmpty() ? "" : String.format(PROBLEM_FMT, problems.get(0));
+        final String format = TextIO.read(DCopy.class, "DCopy.txt");
+        return () -> context.printf(format, cmdLine, cmdName, problem);
     }
 
     @Override
@@ -74,8 +60,8 @@ public class DCopy implements Runnable {
         context.printf("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -%n");
         if (!Files.exists(tgtPath, LinkOption.NOFOLLOW_LINKS)) {
             context.printf("creating: %s ... ", tgtPath);
-            create(tgtPath);
-            context.printf("ok%n");
+            final String result = create(tgtPath);
+            context.printf("%s%n", result);
         }
         copyAll(srcPath);
     }
@@ -106,17 +92,18 @@ public class DCopy implements Runnable {
         }
         // normal case ...
         else {
-            create(target);
-            context.printf("ok%n");
+            final String result = create(target);
+            context.printf("%s%n", result);
             copyAll(source);
         }
     }
 
-    private static void create(final Path target) {
+    private static String create(final Path target) {
         try {
             Files.createDirectories(target);
+            return "ok";
         } catch (final IOException e) {
-            throw new IllegalStateException(e.getMessage(), e);
+            return String.format("failed:%n    %s%n    (%s)", e.getMessage(), e.getClass().getCanonicalName());
         }
     }
 }
