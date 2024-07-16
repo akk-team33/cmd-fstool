@@ -1,25 +1,21 @@
 package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.patterns.io.deimos.TextIO;
+import de.team33.cmd.fstool.main.common.ValidationException;
+import de.team33.cmd.fstool.main.common.Validator;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class DCopy implements Runnable {
 
     public static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
-    private static final String PROBLEM_FMT = //
-            "Problem:%n" +
-            "%n" +
-            "    %s%n" +
-            "%n";
+    private static final String PROBLEM_FMT = "Problem:%n%n    %s%n%n";
 
     private final Context context;
     private final Path srcPath;
@@ -32,25 +28,23 @@ public class DCopy implements Runnable {
     }
 
     public static Runnable job(final Context context, final List<String> args) {
-        final List<String> problems = new ArrayList<>(1);
-        if (args.size() == 4) {
-            final Path srcPath = Paths.get(args.get(2));
-            final Path tgtPath = Paths.get(args.get(3));
-            if (Files.isDirectory(srcPath)) {
-                if (!Files.exists(tgtPath) || Files.isDirectory(tgtPath)) {
-                    return new DCopy(context, srcPath, tgtPath);
-                } else {
-                    problems.add("target path <" + tgtPath + "> exists but is not a directory");
-                }
-            } else {
-                problems.add("source path <" + srcPath + "> is not a directory");
-            }
+        return Validator.by(DCopy.class, context, args)
+                        .validated(() -> primaryJob(context, args));
+    }
+
+    private static DCopy primaryJob(Context context, List<String> args) throws ValidationException {
+        if (args.size() != 4) {
+            throw new ValidationException();
         }
-        final String cmdLine = String.join(" ", args);
-        final String cmdName = args.get(0);
-        final String problem = problems.isEmpty() ? "" : String.format(PROBLEM_FMT, problems.get(0));
-        final String format = TextIO.read(DCopy.class, "DCopy.txt");
-        return () -> context.printf(format, cmdLine, cmdName, problem);
+        final Path srcPath = Paths.get(args.get(2));
+        if (!Files.isDirectory(srcPath)) {
+            throw new ValidationException("source path <" + srcPath + "> is not a directory");
+        }
+        final Path tgtPath = Paths.get(args.get(3));
+        if (Files.exists(tgtPath) && !Files.isDirectory(tgtPath)) {
+            throw new ValidationException("target path <" + tgtPath + "> exists but is not a directory");
+        }
+        return new DCopy(context, srcPath, tgtPath);
     }
 
     @Override
