@@ -9,7 +9,6 @@ import de.team33.patterns.enums.alpha.EnumValues;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public enum Main implements Context  {
@@ -34,14 +33,7 @@ public enum Main implements Context  {
     }
 
     private static Runnable job(final List<String> args) {
-        return VALUES.mapFirst(toFilter(args), toJob(args));
-    }
-
-    private static Predicate<Main> toFilter(final List<String> args) {
-        return item -> item.filter.test(args);
-    }
-
-    private static Function<Main, Runnable> toJob(final List<String> args) {
-        return item -> item.toJob.apply(item, args);
+        return VALUES.mapFirst(value -> value.filter.test(args),
+                               value -> value.toJob.apply(value, args));
     }
 }
