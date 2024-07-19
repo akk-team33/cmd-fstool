@@ -18,14 +18,14 @@ public class Resolving {
     }
 
     public static Runnable job(final Context context, final List<String> args,
-                               final XBiFunction<Context, List<String>, Runnable, ResolveException> method) {
-        return new Resolving(context, args).job(method);
+                               final XBiFunction<Context, List<String>, Runnable, JobException> primary) {
+        return new Resolving(context, args).job(primary);
     }
 
-    private Runnable job(final XBiFunction<Context, List<String>, Runnable, ResolveException> method) {
+    private Runnable job(final XBiFunction<Context, List<String>, Runnable, JobException> primary) {
         try {
-            return method.apply(context, args);
-        } catch (final ResolveException e) {
+            return primary.apply(context, args);
+        } catch (final JobException e) {
             final String cmdLine = String.join(" ", args);
             final String cmdName = args.get(0);
             final String problem = Optional.ofNullable(e.getMessage())
@@ -33,7 +33,10 @@ public class Resolving {
                                            .orElse("");
             final Class<?> oClass = e.getOriginatorClass();
             final String format = TextIO.read(oClass, oClass.getSimpleName() + ".txt");
-            return () -> context.printf(format, cmdLine, cmdName, problem);
+            return () -> {
+                context.printf("%s%n", TextIO.read(getClass(), "head.txt"));
+                context.printf(format, cmdLine, cmdName, problem);
+            };
         }
     }
 }

@@ -1,7 +1,7 @@
 package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.cmd.fstool.main.common.ResolveException;
+import de.team33.cmd.fstool.main.common.JobException;
 import de.team33.cmd.fstool.main.common.Resolving;
 
 import java.io.IOException;
@@ -20,25 +20,25 @@ public class DCopy implements Runnable {
     private final Path srcPath;
     private final Path tgtPath;
 
-    private DCopy(final Context context, final List<String> args) throws ResolveException {
+    private DCopy(final Context context, final List<String> args) throws JobException {
         if (args.size() != 4) {
-            throw newResolveException(null);
+            throw newJobException(null);
         }
         final Path srcPath = Paths.get(args.get(2));
         if (!Files.isDirectory(srcPath)) {
-            throw newResolveException("source path <" + srcPath + "> is not a directory");
+            throw newJobException("source path <" + srcPath + "> is not a directory");
         }
         final Path tgtPath = Paths.get(args.get(3));
         if (Files.exists(tgtPath) && !Files.isDirectory(tgtPath)) {
-            throw newResolveException("target path <" + tgtPath + "> exists but is not a directory");
+            throw newJobException("target path <" + tgtPath + "> exists but is not a directory");
         }
         this.context = context;
         this.srcPath = srcPath.toAbsolutePath().normalize();
         this.tgtPath = tgtPath.toAbsolutePath().normalize();
     }
 
-    private static ResolveException newResolveException(final String message) {
-        return new ResolveException(DCopy.class, message);
+    private static JobException newJobException(final String message) {
+        return new JobException(DCopy.class, message);
     }
 
     public static Runnable job(final Context context, final List<String> args) {
