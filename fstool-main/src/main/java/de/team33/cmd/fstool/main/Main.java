@@ -4,7 +4,7 @@ import de.team33.cmd.fstool.main.common.Context;
 import de.team33.cmd.fstool.main.job.BadArgs;
 import de.team33.cmd.fstool.main.job.NoArgs;
 import de.team33.cmd.fstool.main.job.Regular;
-import de.team33.patterns.enums.alpha.EnumTool;
+import de.team33.patterns.enums.alpha.EnumValues;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,8 +18,8 @@ public enum Main implements Context  {
     REGULAR(Regular::test, Regular::job),
     BAD_ARGS(BadArgs::test, BadArgs::job);
 
-    private static final EnumTool<Main> TOOL = EnumTool.of(Main.class)
-                                                       .fallback(BAD_ARGS);
+    private static final EnumValues<Main> VALUES = EnumValues.of(Main.class)
+                                                             .fallback(BAD_ARGS);
 
     private final Predicate<List<String>> filter;
     private final BiFunction<Context, List<String>, Runnable> toJob;
@@ -34,7 +34,7 @@ public enum Main implements Context  {
     }
 
     private static Runnable job(final List<String> args) {
-        return TOOL.mapFirst(toFilter(args), toJob(args));
+        return VALUES.mapFirst(toFilter(args), toJob(args));
     }
 
     private static Predicate<Main> toFilter(final List<String> args) {
