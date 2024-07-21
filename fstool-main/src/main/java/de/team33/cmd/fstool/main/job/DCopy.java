@@ -14,7 +14,8 @@ import java.util.stream.Stream;
 
 public class DCopy implements Runnable {
 
-    public static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
+    static final String EXCERPT = "Copy the subdirectory structure from one directory to another.";
+    static final String CMD_ARGS = "dcopy SRC_PATH TGT_PATH";
 
     private final Context context;
     private final Path srcPath;
