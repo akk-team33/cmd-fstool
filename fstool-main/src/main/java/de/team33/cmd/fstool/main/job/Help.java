@@ -1,45 +1,34 @@
 package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.Context;
-import de.team33.cmd.fstool.main.common.Resolving;
 import de.team33.patterns.io.deimos.TextIO;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
-class Help {
+class Help implements Runnable {
 
     private final Context context;
-    private final String cmdLine;
-    private final String cmdName;
-    private String problem;
-    private String cmdArgs;
+    private final List<Consumer<Context>> chain;
 
-    private Help(final Context context, final List<String> args) {
+    Help(final Context context) {
         this.context = context;
-        this.cmdLine = String.join(" ", args);
-        this.cmdName = args.get(0);
-        this.cmdArgs = "";
+        this.chain = new LinkedList<>();
+        this.add(ctx -> ctx.printf("%s%n", TextIO.read(Help.class, "Help-head.txt")));
     }
 
-    static Help by(final Context context, final List<String> args) {
-        return new Help(context, args);
-    }
-
-    final Help setCmdArgs(final String cmdArgs) {
-        this.cmdArgs = cmdArgs;
+    final Help add(final Consumer<Context> consumer) {
+        chain.add(consumer);
         return this;
     }
 
-    final Help setProblem(final String problem) {
-        this.problem = problem;
-        return this;
+    @Override
+    public final void run() {
+        chain.forEach(this::run);
     }
 
-    final Runnable runnable() {
-        return () -> {
-            context.printf("%s%n", TextIO.read(Resolving.class, "head.txt"));
-            context.printf("Your request:%n%n    %s%n%n", cmdLine);
-            context.printf("Expected request scheme:%n%n    %s %s%n%n", cmdName, cmdArgs);
-        };
+    private void run(final Consumer<Context> consumer) {
+        consumer.accept(context);
     }
 }

@@ -1,4 +1,12 @@
 +------------------------------------------------------------------------------
 | ${project.groupId} - ${project.artifactId} - version ${project.version}
 +------------------------------------------------------------------------------
-de.team33.cmd.fstool.main.job.HelpTest%n%n
+Your request:
+
+    cmdName
+
+Expected request scheme:
+
+    cmdName TASK [arg [, arg [, ...]]]
+
+    de.team33.cmd.fstool.main.job.HelpArgsTest%n%n
