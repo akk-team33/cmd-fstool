@@ -2,6 +2,7 @@ package de.team33.cmd.fstool.main.job;
 
 import de.team33.cmd.fstool.main.common.Context;
 import de.team33.patterns.enums.alpha.EnumValues;
+import de.team33.patterns.io.delta.Resource;
 
 import java.util.List;
 import java.util.Properties;
@@ -12,16 +13,16 @@ import java.util.stream.Collectors;
 
 public enum Regular {
 
-    ABOUT(About::job, About.EXCERPT, About.CMD_ARGS),
-    SETUP(Setup::job, Setup.EXCERPT, null),
-    DCOPY(DCopy::job, DCopy.EXCERPT, DCopy.CMD_ARGS),
-    MKDATE(MKDate::job, MKDate.EXCERPT, null),
-    MKTIME(MKTime::job, MKTime.EXCERPT, null),
-    CLEAN(Clean::job, Clean.EXCERPT, null),
-    MOVE(Move::job, Move.EXCERPT, null),
-    SIEVE(Sieve::job, Sieve.EXCERPT, null),
-    INFO(Info::job, Info.EXCERPT, null),
-    COPY(Copy::job, Copy.EXCERPT, null);
+    ABOUT(About::job),
+    SETUP(Setup::job),
+    DCOPY(DCopy::job),
+    MKDATE(MKDate::job),
+    MKTIME(MKTime::job),
+    CLEAN(Clean::job),
+    MOVE(Move::job),
+    SIEVE(Sieve::job),
+    INFO(Info::job),
+    COPY(Copy::job);
 
     private static final EnumValues<Regular> VALUES = EnumValues.of(Regular.class);
     private static final String NEWLINE = String.format("%n    ");
@@ -30,10 +31,13 @@ public enum Regular {
     private final String excerpt;
     final String cmdArgs;
 
-    Regular(final BiFunction<Context, List<String>, Runnable> toJob, final String excerpt, final String cmdArgs) {
+    Regular(final BiFunction<Context, List<String>, Runnable> toJob) {
+        final String resourceName = Regular.class.getSimpleName() + "." + name() + ".properties";
+        final Properties properties = Resource.by(Regular.class, resourceName)
+                                              .readProperties();
         this.toJob = toJob;
-        this.excerpt = excerpt;
-        this.cmdArgs = cmdArgs;
+        this.excerpt = properties.getProperty("excerpt");
+        this.cmdArgs = properties.getProperty("cmdArgs");
     }
 
     public static boolean test(final List<String> args) {

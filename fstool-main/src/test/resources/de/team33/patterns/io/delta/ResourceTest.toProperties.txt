@@ -1,1 +1,0 @@
-value=de.team33.patterns.io.delta.ResourceTest

@@ -1,6 +1,7 @@
 package de.team33.patterns.io.delta;
 
 import de.team33.patterns.exceptional.dione.XFunction;
+import de.team33.patterns.exceptional.dione.XSupplier;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,34 +9,56 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Resource {
 
     private static final String CANNOT_READ_RESOURCE = "cannot read resource%n" +
-            "    resource name   : %s%n" +
-            "    referring class : %s%n" +
-            "    cause           : %s%n" +
-            "                      (%s)%n";
+                                                       "    resource name   : %s%n" +
+                                                       "    referring class : %s%n" +
+                                                       "    cause type      : %s%n" +
+                                                       "    cause message   : %s%n";
+    private static final String CANNOT_READ_FILE = "cannot read file%n" +
+                                                   "    path          : %s%n" +
+                                                   "    cause type    : %s%n" +
+                                                   "    cause message : %s%n";
+    private static final String NEW_LINE = String.format("%n");
 
-    private final Class<?> refClass;
-    private final String name;
+    private final XSupplier<InputStream, IOException> newInputStream;
+    private final Function<Exception, String> newExceptionMessage;
 
-    private Resource(final Class<?> refClass, final String name) {
-        this.refClass = refClass;
-        this.name = name;
+    protected Resource(final XSupplier<InputStream, IOException> newInputStream,
+                       final Function<Exception, String> newExceptionMessage) {
+        this.newInputStream = newInputStream;
+        this.newExceptionMessage = newExceptionMessage;
     }
 
-    public static Resource by(final Class<?> refClass, final String name) {
-        return new Resource(refClass, name);
+    public static Resource by(final Class<?> referringClass, final String resourceName) {
+        return new Resource(() -> referringClass.getResourceAsStream(resourceName),
+                            caught -> String.format(CANNOT_READ_RESOURCE, resourceName, referringClass,
+                                                    caught.getClass().getCanonicalName(), caught.getMessage()));
     }
 
-    private static <R> R readText(final InputStream in,
-                                  final XFunction<BufferedReader, R, IOException> function) throws IOException {
-        try (final Reader rin = new InputStreamReader(in, StandardCharsets.UTF_8);
-             final BufferedReader bin = new BufferedReader(rin)) {
-            return function.apply(bin);
+    public static Resource by(final Path path) {
+        return new Resource(() -> Files.newInputStream(path),
+                            caught -> String.format(CANNOT_READ_FILE, path,
+                                                    caught.getClass().getCanonicalName(), caught.getMessage()));
+    }
+
+    private static <R> R readCharStream(final InputStream in,
+                                        final XFunction<BufferedReader, R, IOException> function) throws IOException {
+        try (final Reader streamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+             final BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+            return function.apply(bufferedReader);
         }
+    }
+
+    private static String readText(BufferedReader reader) {
+        return reader.lines().collect(Collectors.joining(NEW_LINE));
     }
 
     private static Properties readProperties(final Reader in) throws IOException {
@@ -44,21 +67,23 @@ public class Resource {
         return result;
     }
 
-    public final <R> R readBin(final XFunction<InputStream, R, IOException> function) {
-        try (final InputStream in = refClass.getResourceAsStream(name)) {
+    public final <R> R readByteStream(final XFunction<InputStream, R, IOException> function) {
+        try (final InputStream in = newInputStream.get()) {
             return function.apply(in);
-        } catch (final NullPointerException | IOException e) {
-            throw new IllegalStateException(String.format(CANNOT_READ_RESOURCE,
-                                                          name, refClass,
-                                                          e.getMessage(), e.getClass().getCanonicalName()), e);
+        } catch (final RuntimeException | IOException e) {
+            throw new IllegalArgumentException(newExceptionMessage.apply(e), e);
         }
     }
 
-    public final <R> R readText(final XFunction<BufferedReader, R, IOException> function) {
-        return readBin(in -> readText(in, function));
+    public final <R> R readCharStream(final XFunction<BufferedReader, R, IOException> function) {
+        return readByteStream(in -> readCharStream(in, function));
     }
 
-    public final Properties toProperties() {
-        return readText(Resource::readProperties);
+    public final String readText() {
+        return readCharStream(Resource::readText);
+    }
+
+    public final Properties readProperties() {
+        return readCharStream(Resource::readProperties);
     }
 }
